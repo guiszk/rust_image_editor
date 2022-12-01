@@ -83,6 +83,10 @@ fn main() {
         }
     }
     
+    // if no args, print help
+    if validnum < 1 {
+        printhelp();
+    }
     // if multiple operations, perform all on output image (input image won't keep changes)
     if validnum > 1 {
         fs::copy(infile.to_string(), outfile.to_string()).ok();
@@ -113,6 +117,20 @@ fn main() {
     if fractal_arg {
         fractal(outfile.to_string());
     }
+}
+
+fn printhelp() {
+    println!("Usage: cargo run <INPUT> <OUTPUT> [OPTIONS]
+    --blur VALUE            gaussian blur 
+    --rotate VALUE          rotate image (90, 180 or 270 deg)
+    --brighten VALUE        brighten image
+    --crop \"x,y,w,h\"        crop image
+    --invert                invert colors
+    --grayscale             convert to grayscale
+    --solid \"r,g,b\"         turn image into solid color
+    --fractal               fractalize image
+    --help                  show detailed help menu");
+    println!("Example: cargo run image.jpg out.jpg --blur 2.5 --invert --rotate 180 --brighten 100");
 }
 
 fn blur(infile: String, outfile: String, amount: f32) {
